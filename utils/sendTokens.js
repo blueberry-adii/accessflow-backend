@@ -17,11 +17,11 @@ const sendTokens = (user, res, message = "Login Success") => {
   return res
     .cookie("accessToken", accessToken, {
       ...cookieOptions,
-      maxAge: 15 * 60 * 1000,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     })
     .cookie("refreshToken", refreshToken, {
       ...cookieOptions,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge: 20 * 24 * 60 * 60 * 1000,
     })
     .status(200)
     .json(

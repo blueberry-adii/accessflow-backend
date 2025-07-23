@@ -4,6 +4,7 @@ const ApiError = require("../utils/ApiError");
 const User = require("../models/user.models");
 const bcrypt = require("bcrypt");
 const sendTokens = require("../utils/sendTokens");
+const jwt = require("jsonwebtoken");
 const {
   generateAccessToken,
   generateRefreshToken,
@@ -116,30 +117,32 @@ exports.refreshAccessToken = asyncHandler(async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-    const user = await User.findById(decoded.id);
+    const user = await User.findById(decoded.id).select("-password");
 
     if (!user) throw new ApiError(401, "User not found");
 
     const accessToken = generateAccessToken(user._id);
     refreshToken = generateRefreshToken(user._id);
 
+    req.user = user;
+
     return res
       .cookie("accessToken", accessToken, {
         httpOnly: true,
         secure: true,
         sameSite: "Strict",
-        maxAge: 15 * 60 * 1000,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       })
       .cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: true,
         sameSite: "Strict",
-        maxAge: 7 * 24 * 60 * 60 * 1000,
+        maxAge: 20 * 24 * 60 * 60 * 1000,
       })
       .status(200)
       .json(new ApiResponse(200, {}, "Access token refreshed"));
   } catch (err) {
-    throw new ApiError(401, "Refresh token expired or invalid");
+    throw new ApiError(401, err);
   }
 });
 
