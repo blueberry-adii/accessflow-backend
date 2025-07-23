@@ -4,7 +4,32 @@ const ApiError = require("../utils/ApiError");
 const User = require("../models/user.models");
 const bcrypt = require("bcrypt");
 
-// exports.LogIn = asyncHandler(async (req, res, next) => {});
+exports.LogIn = asyncHandler(async (req, res, next) => {
+  let { username, password } = req.body;
+
+  username = username?.trim();
+  password = password?.trim();
+
+  if (!username || !password)
+    throw new ApiError(400, "All Fields are required");
+
+  const user = User.findOne({ username }).select("+password");
+
+  if (!user) throw new ApiError(400, "Invalid Credentials");
+
+  const isPasswordValid = bcrypt.compare(password, user.password);
+
+  if (!isPasswordValid) throw new ApiError(400, "Invalid Credentials");
+
+  return res.status(200).json(
+    new ApiResponse(201, {
+      _id: user._id,
+      name: user.name,
+      username: user.username,
+      role: user.role,
+    })
+  );
+});
 
 exports.SignUp = asyncHandler(async (req, res, next) => {
   let { name, username, password, confirmPassword } = req.body;

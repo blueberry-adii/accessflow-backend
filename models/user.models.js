@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
       minlength: 8,
+      select: false,
     },
     role: {
       type: String,
