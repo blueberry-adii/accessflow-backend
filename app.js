@@ -5,16 +5,23 @@ const express = require("express");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth.routes");
 const errorHandler = require("./middlewares/error.middleware");
+const cors = require("cors");
 
 const PORT = process.env.PORT || 5000;
 
 connectDB();
 const app = express();
+app.use(
+  cors({
+    origin: "*",
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 app.use("/v1/api/auth", authRoutes);
 app.get("/v1/api/health", (req, res) => {
-  res.status(200).json({ status: "Ok", time: new Date().toISOString });
+  res.status(200).json({ status: "Ok", time: new Date().toISOString() });
 });
 
 app.use(errorHandler);

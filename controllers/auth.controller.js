@@ -4,7 +4,7 @@ const ApiError = require("../utils/ApiError");
 const User = require("../models/user.models");
 const bcrypt = require("bcrypt");
 
-exports.LogIn = asyncHandler(async (req, res, next) => {});
+// exports.LogIn = asyncHandler(async (req, res, next) => {});
 
 exports.SignUp = asyncHandler(async (req, res, next) => {
   let { name, username, password, confirmPassword } = req.body;
@@ -41,18 +41,16 @@ exports.SignUp = asyncHandler(async (req, res, next) => {
     role: "user",
   });
 
-  return res
-    .status(201)
-    .json(
-      new ApiResponse(
-        201,
-        {
-          _id: user._id,
-          name: user.name,
-          username: user.username,
-          role: user.role,
-        },
-        "SignedUp successfully"
-      )
-    );
+  return res.status(201).json(
+    new ApiResponse(
+      201,
+      {
+        _id: user._id,
+        name: user.name,
+        username: user.username,
+        role: user.role,
+      },
+      "SignedUp successfully"
+    )
+  );
 });
