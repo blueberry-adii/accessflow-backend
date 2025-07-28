@@ -4,6 +4,7 @@ dotenv.config();
 const express = require("express");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth.routes");
+const userRoutes = require("./routes/user.routes");
 const errorHandler = require("./middlewares/error.middleware");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/v1/api/auth", authRoutes);
+app.use("/v1/api/user", userRoutes);
 app.get("/v1/api/health", (req, res) => {
   res.status(200).json({ status: "Ok", time: new Date().toISOString() });
 });
