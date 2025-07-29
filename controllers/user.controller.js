@@ -20,3 +20,18 @@ exports.Me = asyncHandler(async (req, res, next) => {
     )
   );
 });
+
+exports.AllUsers = asyncHandler(async (req, res, next) => {
+  const allUsers = await User.find();
+  const users = allUsers.map((user) => {
+    return {
+      name: user.name,
+      role: user.role,
+      joined: user.createdAt,
+    };
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, users, "Successfully fetched all the users"));
+});

@@ -29,18 +29,18 @@ exports.LogIn = asyncHandler(async (req, res, next) => {
 
   sendTokens(user, res, "Login Successful");
 
-  return res.status(200).json(
-    new ApiResponse(
-      201,
-      {
-        _id: user._id,
-        name: user.name,
-        username: user.username,
-        role: user.role,
-      },
-      "Login Successful"
-    )
-  );
+  // return res.status(200).json(
+  //   new ApiResponse(
+  //     200,
+  //     {
+  //       _id: user._id,
+  //       name: user.name,
+  //       username: user.username,
+  //       role: user.role,
+  //     },
+  //     "Login Successful 2nd msggg"
+  //   )
+  // );
 });
 
 exports.SignUp = asyncHandler(async (req, res, next) => {

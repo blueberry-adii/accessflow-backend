@@ -21,3 +21,14 @@ exports.protect = asyncHandler(async (req, res, next) => {
     throw new ApiError(401, "Unauthorized: Token invalid");
   }
 });
+
+exports.roleBasedAccess = (...allowedRoles) => {
+  return (req, res, next) => {
+    const role = req.user.role;
+
+    if (!allowedRoles.includes(role))
+      throw new ApiError(401, "Access denied: insufficient permissions");
+
+    next();
+  };
+};

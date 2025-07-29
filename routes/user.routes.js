@@ -1,8 +1,14 @@
-const { Me } = require("../controllers/user.controller");
-const { protect } = require("../middlewares/auth.middleware");
+const { Me, AllUsers } = require("../controllers/user.controller");
+const { protect, roleBasedAccess } = require("../middlewares/auth.middleware");
 const express = require("express");
 const router = express.Router();
 
 router.get("/me", protect, Me);
+router.get(
+  "/admin/all-users",
+  protect,
+  roleBasedAccess("admin", "owner"),
+  AllUsers
+);
 
 module.exports = router;
