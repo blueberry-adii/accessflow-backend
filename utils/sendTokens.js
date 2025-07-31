@@ -11,7 +11,7 @@ const sendTokens = (user, res, message = "Login Success") => {
   const cookieOptions = {
     httpOnly: true,
     secure: true,
-    sameSite: "Strict",
+    sameSite: "None",
   };
 
   return res
