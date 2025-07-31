@@ -53,10 +53,13 @@ exports.SignUp = asyncHandler(async (req, res, next) => {
 
   const nameRegex = /^[A-Za-z ]+$/;
   const isNameValid = nameRegex.test(name);
+  const isUsernameValid = /^\S+$/.test(username);
   const existingUser = await User.findOne({ username });
 
   if (!name || !username || !password || !confirmPassword)
     throw new ApiError(400, "All Fields are required");
+  if (!isUsernameValid)
+    throw new ApiError(400, "Invalid Username: must not contain whitespaces");
   if (!isNameValid)
     throw new ApiError(400, "Invalid Name: name must contain only alphabets");
   if (name.length < 2 || name.length > 12)

@@ -16,18 +16,23 @@ router.get(
   roleBasedAccess("admin", "owner"),
   AllUsers
 );
-router.post(
-  "/admin/make-admin",
+router.put(
+  "/admin/make-admin/:username",
   protect,
   roleBasedAccess("admin", "owner"),
   makeAdmin
 );
-router.post(
-  "/admin/remove-admin",
+router.put(
+  "/admin/remove-admin/:username",
   protect,
   roleBasedAccess("admin", "owner"),
   removeAdmin
 );
-router.delete("/admin/kick", protect, roleBasedAccess("admin", "owner"), kick);
+router.delete(
+  "/admin/kick/:username",
+  protect,
+  roleBasedAccess("admin", "owner"),
+  kick
+);
 
 module.exports = router;

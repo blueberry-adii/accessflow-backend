@@ -15,7 +15,7 @@ exports.Me = asyncHandler(async (req, res, next) => {
         name: user.name,
         username: user.username,
         role: user.role,
-        joined: user.createdAt,
+        createdAt: user.createdAt,
       },
       "Successfully fetched user data"
     )
@@ -29,7 +29,7 @@ exports.AllUsers = asyncHandler(async (req, res, next) => {
       name: user.name,
       username: user.username,
       role: user.role,
-      joined: user.createdAt,
+      createdAt: user.createdAt,
     };
   });
 
@@ -39,7 +39,7 @@ exports.AllUsers = asyncHandler(async (req, res, next) => {
 });
 
 exports.makeAdmin = asyncHandler(async (req, res, next) => {
-  const { username } = req.body;
+  const { username } = req.params;
   const user = await User.findOne({ username });
   if (!user) throw new ApiError(404, "No User Found");
   if (user.role == "owner")
@@ -57,7 +57,7 @@ exports.makeAdmin = asyncHandler(async (req, res, next) => {
 });
 
 exports.removeAdmin = asyncHandler(async (req, res, next) => {
-  const { username } = req.body;
+  const { username } = req.params;
   const user = await User.findOne({ username });
   if (!user) throw new ApiError(404, "No User Found");
   if (user.role == "owner")
@@ -75,7 +75,7 @@ exports.removeAdmin = asyncHandler(async (req, res, next) => {
 });
 
 exports.kick = asyncHandler(async (req, res, next) => {
-  const { username } = req.body;
+  const { username } = req.params;
   const user = await User.findOne({ username });
   if (!user) throw new ApiError(404, "No User Found");
   if (user.role == "owner") throw new ApiError(403, "Cannot kick the Owner");
