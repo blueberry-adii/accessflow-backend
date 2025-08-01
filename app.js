@@ -15,7 +15,7 @@ connectDB();
 const app = express();
 app.use(
   cors({
-    origin: "https://accessflow-app.netlify.app",
+    origin: process.env.CORS_ORIGIN,
     credentials: true,
   })
 );

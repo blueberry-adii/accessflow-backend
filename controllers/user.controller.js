@@ -38,6 +38,14 @@ exports.AllUsers = asyncHandler(async (req, res, next) => {
     .json(new ApiResponse(200, users, "Successfully fetched all the users"));
 });
 
+exports.NewUsers = asyncHandler(async (req, res, next) => {
+  const newUsers = await User.find().sort({ createdAt: -1 }).limit(5);
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, newUsers, "Successfully got latest 5 users"));
+});
+
 exports.makeAdmin = asyncHandler(async (req, res, next) => {
   const { username } = req.params;
   const user = await User.findOne({ username });
