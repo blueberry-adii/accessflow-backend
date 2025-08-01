@@ -55,13 +55,13 @@ exports.AllUsers = asyncHandler(async (req, res, next) => {
 
 exports.NewUsers = asyncHandler(async (req, res, next) => {
   let newUsers = await User.find().sort({ createdAt: -1 }).limit(5);
-  const date = new Date(2025, 5, 14, 10, 30);
-  while (newUsers.length < 5) {
-    newUsers.push({
-      name: "No User yet",
-      createdAt: date.toISOString(),
-    });
-  }
+  // const date = new Date(2025, 5, 14, 10, 30);
+  // while (newUsers.length < 5) {
+  //   newUsers.push({
+  //     name: "No User yet",
+  //     createdAt: date.toISOString(),
+  //   });
+  // }
 
   return res
     .status(200)
