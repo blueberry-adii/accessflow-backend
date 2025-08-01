@@ -22,6 +22,21 @@ exports.Me = asyncHandler(async (req, res, next) => {
   );
 });
 
+exports.stats = asyncHandler(async (req, res, next) => {
+  const allUsers = await User.find();
+  const admins = allUsers.filter((user) => user.role === "admin");
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        [allUsers.length, admins.length + 1, req.user.role],
+        "Successfully fetched stats"
+      )
+    );
+});
+
 exports.AllUsers = asyncHandler(async (req, res, next) => {
   const allUsers = await User.find();
   const users = allUsers.map((user) => {
@@ -39,7 +54,14 @@ exports.AllUsers = asyncHandler(async (req, res, next) => {
 });
 
 exports.NewUsers = asyncHandler(async (req, res, next) => {
-  const newUsers = await User.find().sort({ createdAt: -1 }).limit(5);
+  let newUsers = await User.find().sort({ createdAt: -1 }).limit(5);
+  const date = new Date(2025, 5, 14, 10, 30);
+  while (newUsers.length < 5) {
+    newUsers.push({
+      name: "No User yet",
+      createdAt: date.toISOString(),
+    });
+  }
 
   return res
     .status(200)

@@ -5,6 +5,7 @@ const {
   removeAdmin,
   kick,
   NewUsers,
+  stats,
 } = require("../controllers/user.controller");
 const { protect, roleBasedAccess } = require("../middlewares/auth.middleware");
 const express = require("express");
@@ -18,6 +19,7 @@ router.get(
   AllUsers
 );
 router.get("/new-users", protect, NewUsers);
+router.get("/stats", protect, stats);
 router.put(
   "/admin/make-admin/:username",
   protect,
